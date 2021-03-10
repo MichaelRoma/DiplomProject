@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="PostData" representedClassName="PostData" syncable="YES" codeGenerationType="class">
+        <attribute name="avatarImage" optional="YES" attributeType="Binary"/>
+        <attribute name="createdTime" optional="YES" attributeType="String"/>
+        <attribute name="currentUserLikesThisPost" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="likedByCount" optional="YES" attributeType="String"/>
+        <attribute name="postDescription" optional="YES" attributeType="String"/>
+        <attribute name="postImage" optional="YES" attributeType="Binary"/>
+        <attribute name="userFullName" optional="YES" attributeType="String"/>
+        <attribute name="userNickName" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="UserData" representedClassName="UserData" syncable="YES" codeGenerationType="class">
+        <attribute name="avatarImage" optional="YES" attributeType="Binary"/>
+        <attribute name="currentUserFollowsThisUser" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="currentUserIsFollowedByThisUser" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="followedByCount" optional="YES" attributeType="String"/>
+        <attribute name="followsCount" optional="YES" attributeType="String"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="username" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="UserPosts" representedClassName="UserPosts" syncable="YES" codeGenerationType="class">
+        <attribute name="postImage" optional="YES" attributeType="Binary"/>
+    </entity>
+    <elements>
+        <element name="PostData" positionX="-63" positionY="-18" width="128" height="178"/>
+        <element name="UserData" positionX="-63" positionY="54" width="128" height="148"/>
+        <element name="UserPosts" positionX="-54" positionY="90" width="128" height="58"/>
+    </elements>
+</model>

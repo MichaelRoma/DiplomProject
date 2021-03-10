@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Image" representedClassName="Image" syncable="YES" codeGenerationType="class">
+        <attribute name="postImageAvatar" attributeType="Transformable"/>
+        <attribute name="postImagePost" attributeType="Transformable"/>
+        <attribute name="userAvatar" attributeType="Transformable"/>
+        <relationship name="avatarImage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostCoreData" inverseName="imageAvatar" inverseEntity="PostCoreData"/>
+        <relationship name="postImage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostCoreData" inverseName="imagePost" inverseEntity="PostCoreData"/>
+        <relationship name="userCoreData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserCoreData" inverseName="image" inverseEntity="UserCoreData"/>
+    </entity>
+    <entity name="PostCoreData" representedClassName="PostCoreData" syncable="YES" codeGenerationType="class">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="authorUsername" optional="YES" attributeType="String"/>
+        <attribute name="createdTime" optional="YES" attributeType="String"/>
+        <attribute name="currentUserLikesThisPost" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="likedByCount" optional="YES" attributeType="String"/>
+        <attribute name="postDescription" optional="YES" attributeType="String"/>
+        <relationship name="imageAvatar" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="avatarImage" inverseEntity="Image"/>
+        <relationship name="imagePost" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="postImage" inverseEntity="Image"/>
+    </entity>
+    <entity name="UserCoreData" representedClassName="UserCoreData" syncable="YES" codeGenerationType="class">
+        <attribute name="currentUserFollowsThisUser" optional="YES" attributeType="String"/>
+        <attribute name="currentUserIsFollowedByThisUser" optional="YES" attributeType="String"/>
+        <attribute name="followedByCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="followsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="userName" optional="YES" attributeType="String"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="userCoreData" inverseEntity="Image"/>
+    </entity>
+    <elements>
+        <element name="Image" positionX="-216" positionY="45" width="128" height="133"/>
+        <element name="PostCoreData" positionX="78.5625" positionY="-14.39453125" width="128" height="28"/>
+        <element name="UserCoreData" positionX="-526.12109375" positionY="14.8125" width="128" height="163"/>
+    </elements>
+</model>
