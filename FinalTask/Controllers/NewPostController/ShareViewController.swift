@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShareViewController: UIViewController {
+final class ShareViewController: UIViewController {
     
     private let localShare = NSLocalizedString("Share", comment: "")
     private let localAddDescript = NSLocalizedString("Add description", comment: "")
@@ -35,10 +35,10 @@ class ShareViewController: UIViewController {
                     if result == "OK" {
                         self.tabBarController?.selectedIndex = 0
                     } else {
-                        Alert.erroAlertFromServer(vc: self, message: result)
+                        Alert.errorAlertFromServer(vc: self, message: result)
                     }
                 case .failure(let error):
-                    Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                    Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                 }
             }
         }

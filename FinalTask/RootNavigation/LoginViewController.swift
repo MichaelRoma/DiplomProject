@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     @IBOutlet weak var user: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var signIn: UIButton!
@@ -45,7 +45,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func pressedSignIn(_ sender: UIButton) {
         if let user = user.text, let password = password.text, !user.isEmpty, !password.isEmpty {
-            LogingToServer(login: user, password: password)
+            logingToServer(login: user, password: password)
         } else {
             disableSignIn()
         }
@@ -65,7 +65,7 @@ extension LoginViewController: UITextFieldDelegate {
             password.becomeFirstResponder()
         } else if let user = user.text, let password = password.text, !user.isEmpty, !password.isEmpty  {
             enableSignIn()
-            LogingToServer(login: user, password: password)
+            logingToServer(login: user, password: password)
         }
         return true
     }
@@ -113,7 +113,7 @@ extension LoginViewController {
         }
     }
     
-    private func LogingToServer(login: String, password: String) {
+    private func logingToServer(login: String, password: String) {
         NetworkManager.shared.logIn(login: login, password: password) { (result) in
             switch result {
       
@@ -144,7 +144,7 @@ extension LoginViewController {
                     
                 case "Unauthorized":
                     DispatchQueue.main.async {
-                        Alert.erroAlertFromServer(vc: self, message: codeMessage)
+                        Alert.errorAlertFromServer(vc: self, message: codeMessage)
                     }
                 default:
                     NetworkManager.isHaveConnection = false

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class NetworkManager {
+final class NetworkManager {
     static var isHaveConnection = true
     
     private let hostPath = "http://localhost:8080"

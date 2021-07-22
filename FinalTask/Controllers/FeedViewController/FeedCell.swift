@@ -9,14 +9,14 @@
 import UIKit
 import Kingfisher
 
-protocol NavigationFromFeedVC: class {
+protocol NavigationFromFeedVC: AnyObject {
     func didPressButtonX(feedCell: FeedCell)
     func didPressUserPic(feedCell: FeedCell)
     func didPressLikes(postID: String)
     func didPressAvatarOrUserName(userID: String)
 }
 
-class FeedCell: UICollectionViewCell {
+final class FeedCell: UICollectionViewCell {
     
     weak var delegate: NavigationFromFeedVC?
     var post: Post!
@@ -93,7 +93,7 @@ class FeedCell: UICollectionViewCell {
         
         addElements()
         setConstraintsForAllElements()
-        configureheartButton()
+        configureHeartButton()
         addGestures()
         setBigLike()
     }
@@ -104,7 +104,7 @@ class FeedCell: UICollectionViewCell {
 }
 
 extension FeedCell {
-    func configuretor (data: Post?, indexParhRow: Int, coreData: PostData?) {
+    func configurator (data: Post?, indexPathRow: Int, coreData: PostData?) {
         if let data = data {
             post = data
             let dateFormater = DateFormatter()
@@ -143,7 +143,7 @@ extension FeedCell {
             
             likes.text = localizedLikes + String(data.likedByCount)
             descriptionFeed.text  = data.description
-            self.indexPathItem = indexParhRow
+            self.indexPathItem = indexPathRow
             if data.currentUserLikesThisPost == true {
                 heartButton.tintColor = .systemBlue
             }
@@ -204,7 +204,7 @@ private extension FeedCell {
         bigLike.anchorCenterXY(centerX: userPic.centerXAnchor, centerY: userPic.centerYAnchor)
     }
     
-    private func configureheartButton() {
+    private func configureHeartButton() {
         heartButton.setImage(#imageLiteral(resourceName: "like"), for: .normal)
         heartButton.tintColor = .lightGray
         heartButton.anchorSize(width: 44, height: 44)

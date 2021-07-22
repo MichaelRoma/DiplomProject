@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotoViewController: UIViewController {
+final class PhotoViewController: UIViewController {
     
     private let localFilters = NSLocalizedString("Filters", comment: "")
     private let localNext = NSLocalizedString("Next", comment: "")
@@ -93,10 +93,10 @@ extension PhotoViewController: UICollectionViewDelegateFlowLayout, UICollectionV
         operation.completionBlock = {
             DispatchQueue.main.async {
                 self.image.image = operation.outputImage
-                self.stopWaiting()
+                self.stopWaitingIndicator()
             }
         }
-        startWaiting()
+        startWaitingIndicator()
         queue.addOperation(operation)
     }
 }

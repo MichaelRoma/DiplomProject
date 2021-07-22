@@ -8,7 +8,7 @@
 
 import Foundation
 
-class KeychainManger {
+final class KeychainManger {
     
     static var shared = KeychainManger()
     private init() {}

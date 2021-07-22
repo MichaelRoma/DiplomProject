@@ -11,7 +11,7 @@ import UIKit
 fileprivate var aView: UIView?
 
 extension UIViewController {
-    func startWaiting() {
+    func startWaitingIndicator() {
         aView = UIView(frame: self.view.bounds)
         aView?.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
         
@@ -23,7 +23,7 @@ extension UIViewController {
         self.view.addSubview(aView!)
     }
     
-    func stopWaiting() {
+    func stopWaitingIndicator() {
         aView?.removeFromSuperview()
         aView = nil
     }

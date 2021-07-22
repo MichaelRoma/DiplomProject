@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewPostCell: UICollectionViewCell {
+final class NewPostCell: UICollectionViewCell {
     let label = UILabel()
     
     private lazy var image: UIImageView = {

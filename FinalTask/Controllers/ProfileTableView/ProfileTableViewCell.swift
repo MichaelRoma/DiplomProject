@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ProfileTableViewCell: UITableViewCell {
+final class ProfileTableViewCell: UITableViewCell {
     
     private let imageUserCell = UIImageView()
     private let userNameCell = UILabel()

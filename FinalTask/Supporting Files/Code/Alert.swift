@@ -17,7 +17,7 @@ class Alert {
         vc.present(alert, animated: true)
     }
     
-    class func erroAlertFromServer(vc: UIViewController, message: String ) {
+    class func errorAlertFromServer(vc: UIViewController, message: String ) {
         
         let alert = UIAlertController(title: "Server response", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

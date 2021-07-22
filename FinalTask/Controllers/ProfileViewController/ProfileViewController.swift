@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UICollectionViewController {
+final class ProfileViewController: UICollectionViewController {
     
     private let cellID = "cellID"
     private let headerIdentifier = "ProfileHeader"
@@ -38,7 +38,7 @@ class ProfileViewController: UICollectionViewController {
                             self.collectionView.reloadData()
                         }
                     case .failure(let error):
-                        Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                        Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                     }
                 }
             }
@@ -59,10 +59,10 @@ extension ProfileViewController {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileCollectionHeader
         if NetworkManager.isHaveConnection {
         if userlocal == nil {
-            self.startWaiting()
+            self.startWaitingIndicator()
             network.getCurrentUser { (result) in
                 DispatchQueue.main.async {
-                    self.stopWaiting()
+                    self.stopWaitingIndicator()
                     switch result {case .success(let user):
                         self.userlocal = user
                         CoreDataProvider.currentUser.append(user)
@@ -77,11 +77,11 @@ extension ProfileViewController {
                                     self.collectionView.reloadData()
                                 }
                             case .failure(let error):
-                                Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                                Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                             }
                         }
                     case .failure(let error):
-                        Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                        Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                     }
                 }
             }
@@ -89,7 +89,7 @@ extension ProfileViewController {
             
             network.getUsersPosts(userID: userlocal.id) { (result) in
                 DispatchQueue.main.async {
-                    self.stopWaiting()
+                    self.stopWaitingIndicator()
                     switch result {
                     case .success(let result):
                         self.posts = result
@@ -98,7 +98,7 @@ extension ProfileViewController {
                         header.logOut.isHidden = !self.isCurrent
                         self.collectionView.reloadData()
                     case .failure(let error):
-                        Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                        Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                     }
                 }
             }
@@ -174,30 +174,30 @@ extension ProfileViewController: NavigationFromProfileViewController {
     }
     
     func showFollowersTable() {
-        self.startWaiting()
+        self.startWaitingIndicator()
         network.getFollowersORFollowing(isFolowers: true, userID: userlocal.id) { (result) in
             DispatchQueue.main.async {
-                self.stopWaiting()
+                self.stopWaitingIndicator()
                 switch result {
                 case .success(let users):
                     self.navigationController?.pushViewController(ProfileTableView(data: users, navTitle: NSLocalizedString("Followers", comment: "")), animated: true)
                 case .failure(let error):
-                    Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                    Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                 }
             }
         }
     }
     
     func showFollowingTable() {
-        self.startWaiting()
+        self.startWaitingIndicator()
         network.getFollowersORFollowing(isFolowers: false, userID: userlocal.id) { (result) in
             DispatchQueue.main.async {
-                self.stopWaiting()
+                self.stopWaitingIndicator()
                 switch result {
                 case .success(let users):
                     self.navigationController?.pushViewController(ProfileTableView(data: users, navTitle: NSLocalizedString("Following", comment: "")), animated: true)
                 case .failure(let error):
-                    Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                    Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                 }
             }
         }

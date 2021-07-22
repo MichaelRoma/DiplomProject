@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedViewController: UICollectionViewController {
+final class FeedViewController: UICollectionViewController {
     private let reuseIdentifier = "FeedCell"
     private let network = NetworkManager.shared
     let dataManager = CoreDataManager(modelName: "BackUpData2")
@@ -16,8 +16,10 @@ class FeedViewController: UICollectionViewController {
     private var store: [PostData]!
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         if NetworkManager.isHaveConnection {
-            startWaiting()
+            startWaitingIndicator()
             network.fetchData { (result) in
                 switch result {
                 case .success(let posts):
@@ -25,10 +27,10 @@ class FeedViewController: UICollectionViewController {
                     CoreDataProvider.posts = posts
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
-                        self.stopWaiting()
+                        self.stopWaitingIndicator()
                     }
                 case .failure(let error):
-                    Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                    Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                 }
             }
         } else {
@@ -56,10 +58,10 @@ class FeedViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell
         if NetworkManager.isHaveConnection {
-            cell.configuretor(data: feedPosts[indexPath.item], indexParhRow: indexPath.item, coreData: nil) }
+            cell.configurator(data: feedPosts[indexPath.item], indexPathRow: indexPath.item, coreData: nil) }
         else {
             guard store != nil else { return cell}
-            cell.configuretor(data: nil, indexParhRow: indexPath.item, coreData: store[indexPath.item])
+            cell.configurator(data: nil, indexPathRow: indexPath.item, coreData: store[indexPath.item])
         }
         cell.delegate = self
         return cell
@@ -85,32 +87,32 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout {
 extension FeedViewController: NavigationFromFeedVC {
     
     func didPressAvatarOrUserName(userID: String) {
-        startWaiting()
+        startWaitingIndicator()
         network.getUserByID(userID: userID) { (result) in
             DispatchQueue.main.async {
-                self.stopWaiting()
+                self.stopWaitingIndicator()
                 switch result {
                 case .success(let result):
                     let profile = ProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
                     profile.configurator(user: result)
                     self.navigationController?.pushViewController(profile, animated: true)
                 case .failure(let error):
-                    Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                    Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                 }
             }
         }
     }
     
     func didPressLikes(postID: String) {
-        startWaiting()
+        startWaitingIndicator()
         network.getLikedPosts(postID: postID) { (result) in
             DispatchQueue.main.async {
-                self.stopWaiting()
+                self.stopWaitingIndicator()
                 switch result {
                 case .success(let users):
                     self.navigationController?.pushViewController(ProfileTableView(data: users, navTitle: NSLocalizedString("Likes ", comment: "")), animated: true)
                 case .failure(let erorr):
-                    Alert.erroAlertFromServer(vc: self, message: erorr.localizedDescription)
+                    Alert.errorAlertFromServer(vc: self, message: erorr.localizedDescription)
                 }
             }
         }
@@ -121,14 +123,14 @@ extension FeedViewController: NavigationFromFeedVC {
         let localizedLikes = NSLocalizedString("Likes ", comment: "")
         switch feedCell.heartButton.tintColor {
         case UIColor.lightGray:
-            self.startWaiting()
+            self.startWaitingIndicator()
             network.likeORunlikeTHisPost(isLike: true, postId: feedCell.post.id) { (result) in
                 DispatchQueue.main.async {
-                    self.stopWaiting()
+                    self.stopWaitingIndicator()
                     switch result {
                     case .success(let response):
                         if response != "OK" {
-                            Alert.erroAlertFromServer(vc: self, message: response)
+                            Alert.errorAlertFromServer(vc: self, message: response)
                             return
                         }
                         self.feedPosts[feedCell.indexPathItem].likedByCount += 1
@@ -138,20 +140,20 @@ extension FeedViewController: NavigationFromFeedVC {
                         feedCell.heartButton.tintColor = .systemBlue
                         
                     case .failure(let error):
-                        Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                        Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                     }
                 }
             }
             
         case UIColor.systemBlue:
-            self.startWaiting()
+            self.startWaitingIndicator()
             network.likeORunlikeTHisPost(isLike: false, postId: feedCell.post.id) { (result) in
                 DispatchQueue.main.async {
-                    self.stopWaiting()
+                    self.stopWaitingIndicator()
                     switch result {
                     case .success(let response):
                         if response != "OK" {
-                            Alert.erroAlertFromServer(vc: self, message: response)
+                            Alert.errorAlertFromServer(vc: self, message: response)
                             return
                         }
                         self.feedPosts[feedCell.indexPathItem].likedByCount -= 1
@@ -161,7 +163,7 @@ extension FeedViewController: NavigationFromFeedVC {
                         feedCell.heartButton.tintColor = .lightGray
                         
                     case .failure(let error):
-                        Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                        Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                     }
                 }
             }
@@ -184,14 +186,14 @@ extension FeedViewController: NavigationFromFeedVC {
         feedCell.bigLike.layer.add(animation, forKey: nil)
         
         if feedCell.heartButton.tintColor == UIColor.lightGray {
-            self.startWaiting()
+            self.startWaitingIndicator()
             network.likeORunlikeTHisPost(isLike: true, postId: feedCell.post.id) { (result) in
                 DispatchQueue.main.async {
-                    self.stopWaiting()
+                    self.stopWaitingIndicator()
                     switch result {
                     case .success(let response):
                         if response != "OK" {
-                            Alert.erroAlertFromServer(vc: self, message: response)
+                            Alert.errorAlertFromServer(vc: self, message: response)
                             return
                         }
                         self.feedPosts[feedCell.indexPathItem].likedByCount += 1
@@ -200,7 +202,7 @@ extension FeedViewController: NavigationFromFeedVC {
                         feedCell.heartButton.tintColor = .systemBlue
                         
                     case .failure(let error):
-                        Alert.erroAlertFromServer(vc: self, message: error.localizedDescription)
+                        Alert.errorAlertFromServer(vc: self, message: error.localizedDescription)
                     }
                 }
             }

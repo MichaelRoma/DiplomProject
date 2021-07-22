@@ -7,13 +7,13 @@
 //
 import UIKit
 
-protocol NavigationFromProfileViewController: class {
+protocol NavigationFromProfileViewController: AnyObject {
     func showFollowersTable()
     func showFollowingTable()
     func logOutPressed()
 }
 
-class ProfileCollectionHeader: UICollectionReusableView {
+final class ProfileCollectionHeader: UICollectionReusableView {
     private let network = NetworkManager.shared
     private var user: User!
     weak var delegate: NavigationFromProfileViewController?

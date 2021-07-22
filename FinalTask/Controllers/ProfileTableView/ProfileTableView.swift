@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileTableView: UIViewController {
+final class ProfileTableView: UIViewController {
     
     private var tableData: [User]
     private var navigationTitle: String

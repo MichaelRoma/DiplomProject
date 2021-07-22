@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "PostCell"
 
-class NewPostViewController: UICollectionViewController {
+final class NewPostViewController: UICollectionViewController {
 
     let photos = [UIImage(named: "new1.jpg"),
                   UIImage(named: "new2.jpg"),
@@ -33,7 +33,7 @@ class NewPostViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.collectionView!.register(NewPostCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView?.register(NewPostCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.backgroundColor = .white
         navigationItem.title = NSLocalizedString("New Post", comment: "")
     }
@@ -77,8 +77,8 @@ extension NewPostViewController: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.item)
-        let a = PhotoViewController()
-        a.configurator(image: photos[indexPath.item]!, thumbnailImage: thumbnailPhotos[indexPath.item]!)
-        self.navigationController?.pushViewController(a, animated: true)
+        let pushToThisView = PhotoViewController()
+        pushToThisView.configurator(image: photos[indexPath.item]!, thumbnailImage: thumbnailPhotos[indexPath.item]!)
+        self.navigationController?.pushViewController(pushToThisView, animated: true)
     }
 }
